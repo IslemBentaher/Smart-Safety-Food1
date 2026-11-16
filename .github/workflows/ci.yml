@@ -1,0 +1,44 @@
+name: CI
+on:
+  push: { branches: [main, develop] }
+  pull_request: { branches: [main, develop] }
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+
+  compose-smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up -d --build
+      - run: |
+          curl -sf --retry 20 --retry-delay 2 --retry-connrefused http://localhost:5000/health | grep '"storage":"mongodb"'
+          curl -sf -X POST http://localhost:5000/api/demo
+          curl -sf http://localhost:5000/api/dashboard > /dev/null
+      - if: always()
+        run: docker compose down -v
+
+  docker-publish:
+    needs: compose-smoke
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions: { contents: read, packages: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest
