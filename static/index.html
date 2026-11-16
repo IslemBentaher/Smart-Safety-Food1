@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Health Food AI</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%231f7a54'/%3E%3Cpath d='M12 4l6 2.2v4.8c0 3.4-2.4 6-6 6.8-3.6-.8-6-3.4-6-6.8V6.2L12 4z' fill='none' stroke='white' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="brand" href="#dashboard">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+      </div>
+      <span>Smart Health<br>Food AI</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main"></nav>
+    <div class="side-foot">Student project.<br>Not medical advice.</div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <h1 id="page-title">Dashboard</h1>
+      <div class="datebar" id="datebar">
+        <button class="btn small" id="prev" aria-label="Previous day">&lsaquo;</button>
+        <input type="date" id="date" aria-label="Date">
+        <button class="btn small" id="next" aria-label="Next day">&rsaquo;</button>
+        <button class="btn small" id="today">Today</button>
+      </div>
+      <span class="pill" id="dbpill">Database: <b>checking...</b></span>
+    </header>
+    <main id="view" class="view"></main>
+  </div>
+</div>
+
+<datalist id="foodlist"></datalist>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script src="/static/js/core.js"></script>
+<script src="/static/js/charts.js"></script>
+<script src="/static/js/page-dashboard.js"></script>
+<script src="/static/js/page-foods.js"></script>
+<script src="/static/js/page-profile.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
